@@ -1,46 +1,105 @@
-# Getting Started with Create React App
+# Local Observations Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React + TypeScript application designed to display tabular data streamed from a backend endpoint. This project provides real-time observation data visualization in a simple and intuitive interface.
 
-## Available Scripts
+The observation data comes from an endpoint I wrote in Python using Flask, one which draws data from iNaturalist observation data for the past 24-hours for a 25-mile radius around Arlington, MA.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Live Data Streaming**: 
+  - Uses the `EventSource` API to connect to a streaming endpoint (`http://localhost:5000/stream`).
+  - Handles dynamic updates of observation data in real time.
+  
+- **Dynamic Table Rendering**:
+  - Displays streamed data in a tabular format with the following columns:
+    - **Observation Date** (`obs_date`)
+    - **Species Guess** (`obs_species_guess`)
+    - **Place Guess** (`obs_place_guess`).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Error Handling**: 
+  - Manages connection errors and gracefully closes the stream when the server signals "end".
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Modular Design**:
+  - `DataStream` component encapsulates the data-fetching and rendering logic.
+  - The `App` component serves as the main entry point and integrates `DataStream` with the application layout.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ErikPohl444/local_observations_frontend.git
+   cd local_observations_frontend
+   ```
 
-### `npm run build`
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## File Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `src/App.tsx`
 
-### `npm run eject`
+The root component of the application, responsible for rendering the layout and integrating the `DataStream` component.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```tsx
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <DataStream />
+      </header>
+    </div>
+  );
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `src/DataStream.tsx`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This component manages the live data stream and renders the data in a table. It connects to the backend's streaming endpoint and processes incoming data dynamically.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Key functionality:
+- Opens a connection to the backend using `EventSource`.
+- Handles incoming messages and updates the state with new data.
+- Cleans up the connection when the component is unmounted or when the server signals the end of the stream.
 
-## Learn More
+```tsx
+useEffect(() => {
+  const eventSource = new EventSource("http://localhost:5000/stream");
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  eventSource.onmessage = (event) => {
+    // Process incoming data
+  };
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  eventSource.onerror = (event) => {
+    console.error("EventSource failed:", event);
+    eventSource.close();
+  };
+
+  return () => {
+    eventSource.close();
+  };
+}, []);
+```
+
+## Usage
+
+1. Run the app and ensure the backend is serving data at `http://localhost:5000/stream`.
+2. The frontend will automatically connect to the stream and display observation data in real time.
+
+## Styling
+
+The app uses `App.css` to provide basic styling for the layout and components. You can customize the styles to match your requirements.
+
+## Contributing
+
+Feel free to fork this repository and open pull requests for any enhancements or bug fixes. For major changes, please open an issue to discuss what you would like to change.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

@@ -34,11 +34,14 @@ function DataStream() {
 
   return (
     <div>
-      <h1>Streaming Data</h1>
+      <h1>
+        Filtered iNaturalist Observations Around Arlington, MA with a created
+        date within 24 hours{" "}
+      </h1>
       <table>
         {data.map((item, index) => (
           <tr>
-            <td>{item.obs_date}</td>
+            <td>{item.obs_observed_on_string}</td>
             <td>{item.obs_species_guess}</td>
             <td>{item.obs_place_guess}</td>
           </tr>

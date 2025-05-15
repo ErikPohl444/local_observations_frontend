@@ -1,7 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import DataStream  from './DataStream';
+import React from "react";
+import "./App.css";
+import DataStream from "./DataStream";
 
 function App() {
   return (

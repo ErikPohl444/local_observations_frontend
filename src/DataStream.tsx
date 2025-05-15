@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { ObjectFlags } from "typescript";
 
 function DataStream() {
   const [data, setData] = useState<any[]>([]);
@@ -8,12 +7,18 @@ function DataStream() {
     const eventSource = new EventSource("http://localhost:5000/stream");
 
     eventSource.onmessage = (event) => {
-      try {
-        const parsedData = JSON.parse(event.data);
-        console.log("Received data:", parsedData);
-        setData((prevData) => [...prevData, parsedData]);
-      } catch (error) {
-        console.error("Error parsing event data:", error, event.data);
+      if (event.data === "end") {
+        console.log("end received");
+        eventSource.close();
+        console.log("Stream closed by server.");
+      } else {
+        try {
+          const parsedData = JSON.parse(event.data);
+          console.log("Received data:", parsedData);
+          setData((prevData) => [...prevData, parsedData]);
+        } catch (error) {
+          console.error("Error parsing event data:", error, event.data);
+        }
       }
     };
 
@@ -30,14 +35,15 @@ function DataStream() {
   return (
     <div>
       <h1>Streaming Data</h1>
-      <ul>
+      <table>
         {data.map((item, index) => (
-          <li key={index}>
-            {item.obs_date} {item.obs_species_guess} {item.obs_place_guess}{" "}
-            {JSON.stringify(item)}
-          </li>
+          <tr>
+            <td>{item.obs_date}</td>
+            <td>{item.obs_species_guess}</td>
+            <td>{item.obs_place_guess}</td>
+          </tr>
         ))}
-      </ul>
+      </table>
     </div>
   );
 }

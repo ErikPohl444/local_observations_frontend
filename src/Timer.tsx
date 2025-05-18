@@ -6,7 +6,11 @@ interface TimerProps {
   onTimerUpdate?: (currentValue: number) => void; // Optional prop for updates
 }
 
-const Timer: React.FC<TimerProps> = ({ initialSeconds, onTimerEnd, onTimerUpdate }) => {
+const Timer: React.FC<TimerProps> = ({
+  initialSeconds,
+  onTimerEnd,
+  onTimerUpdate,
+}) => {
   const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {

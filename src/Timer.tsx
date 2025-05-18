@@ -23,13 +23,13 @@ const Timer: React.FC<TimerProps> = ({
       setSeconds((prev) => {
         const newValue = prev - 1;
         if (onTimerUpdate) {
-          onTimerUpdate(newValue); // Call onTimerUpdate with the new value
+          onTimerUpdate(newValue);
         }
         return newValue;
       });
     }, 1000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, [seconds, onTimerEnd, onTimerUpdate]);
 
   return <div>Time remaining: {seconds} seconds</div>;

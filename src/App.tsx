@@ -6,22 +6,21 @@ import Timer from "./Timer";
 function App() {
   const [showDataStream, setShowDataStream] = useState(false);
   const handleButtonClick = () => {
-    setShowDataStream(!showDataStream); // This toggles the button state,
-    // allowing for loading and reloading
+    setShowDataStream(!showDataStream); 
   };
   const [timerValue, setTimerValue] = useState(0);
   const [timerEnded, setTimerEnded] = useState(false);
 
   const handleTimerEnd = () => {
     setTimerEnded(true);
-    setTimerValue(10); // Reset the timer value to the initial value
+    setTimerValue(10); 
     setTimeout(() => {
-      setTimerEnded(false); // Restart the timer by toggling the state
+      setTimerEnded(false); 
     }, 0);
   };
 
   const handleTimerValue = (currentValue: number) => {
-    setTimerValue(currentValue); // Update timerValue with the current timer value
+    setTimerValue(currentValue); 
   };
 
   return (
@@ -37,7 +36,7 @@ function App() {
       <Timer
         initialSeconds={10}
         onTimerEnd={handleTimerEnd}
-        onTimerUpdate={handleTimerValue} // Pass handleTimerValue to Timer
+        onTimerUpdate={handleTimerValue} 
       />
       <p>Timer value: {timerValue}</p>
       {timerEnded && <p>Timer has ended.</p>}

@@ -4,6 +4,8 @@ A React + TypeScript application designed to display tabular data streamed from 
 
 The observation data comes from an endpoint I wrote in Python using Flask, one which draws data from iNaturalist observation data for the past 24-hours for a 25-mile radius around Arlington, MA.
 
+See the backend code here: [Backend code](https://github.com/ErikPohl444/local_observations_backend)
+
 ## Features
 
 - **Live Data Streaming**: 

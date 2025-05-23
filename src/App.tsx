@@ -3,6 +3,9 @@ import "./App.css";
 import DataStream from "./DataStream";
 import Timer from "./Timer";
 
+// work on this next
+// https://medium.com/@vgvieira95/timer-with-react-typescript-4fc03162a02e
+
 function App() {
   const [showDataStream, setShowDataStream] = useState(false);
   const handleButtonClick = () => {

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
+// DataStream component that connects to a server-sent events endpoint
 function DataStream() {
   const [data, setData] = useState<any[]>([]);
 
+  // Effect to set up the EventSource connection to the server
   useEffect(() => {
     const eventSource = new EventSource("http://localhost:5000/stream");
 
@@ -21,7 +23,7 @@ function DataStream() {
         }
       }
     };
-
+    // Handle the open event to confirm connection
     eventSource.onerror = (event) => {
       console.error("EventSource failed:", event);
       eventSource.close();
@@ -32,6 +34,7 @@ function DataStream() {
     };
   }, []);
 
+  // Render the data in a table format
   return (
     <div>
       <h1>

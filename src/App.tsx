@@ -3,29 +3,43 @@ import "./App.css";
 import DataStream from "./DataStream";
 import Timer from "./Timer";
 
-// work on this next
-// https://medium.com/@vgvieira95/timer-with-react-typescript-4fc03162a02e
-
+// Main App component that manages the state and renders the DataStream and Timer components
 function App() {
+  // State to manage the visibility of the DataStream component
   const [showDataStream, setShowDataStream] = useState(false);
-  const handleButtonClick = () => {
-    setShowDataStream(!showDataStream); 
-  };
+  // State to manage the timer value and its end state
   const [timerValue, setTimerValue] = useState(0);
+  // State to track if the timer has ended
   const [timerEnded, setTimerEnded] = useState(false);
+  // Key to force re-render of the Timer component
+  const [timerKey, setTimerKey] = useState(0);
 
+  const handleButtonClick = () => {
+    setShowDataStream(!showDataStream);
+  };
+  // Function to handle the end of the timer and reset the timer
+  // It also triggers the DataStream component to reload
   const handleTimerEnd = () => {
     setTimerEnded(true);
-    setTimerValue(10); 
+    setShowDataStream(true);
+    setTimerValue(10);
+    handleButtonClick();
     setTimeout(() => {
-      setTimerEnded(false); 
+      setTimerEnded(false);
+      setTimerKey((k) => k + 1);
+      setShowDataStream(true);
     }, 0);
   };
 
+  // Function to handle the timer value updates
   const handleTimerValue = (currentValue: number) => {
-    setTimerValue(currentValue); 
+    setTimerValue(currentValue);
   };
 
+  // Render the main application UI
+  // It includes a button to toggle the DataStream visibility, the DataStream component, and the Timer component
+  // The timer value and its end state are displayed below the Timer component
+  // The DataStream component is conditionally rendered based on the state
   return (
     <div className="App">
       <header className="App-header">
@@ -37,9 +51,10 @@ function App() {
         {(!timerValue || showDataStream) && <DataStream />}
       </header>
       <Timer
+        key={timerKey}
         initialSeconds={10}
         onTimerEnd={handleTimerEnd}
-        onTimerUpdate={handleTimerValue} 
+        onTimerUpdate={handleTimerValue}
       />
       <p>Timer value: {timerValue}</p>
       {timerEnded && <p>Timer has ended.</p>}

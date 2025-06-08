@@ -5,7 +5,7 @@ interface TimerProps {
   onTimerEnd: () => void;
   onTimerUpdate?: (currentValue: number) => void; // Optional prop for updates
 }
-
+// Timer component that counts down from a specified number of seconds
 const Timer: React.FC<TimerProps> = ({
   initialSeconds,
   onTimerEnd,

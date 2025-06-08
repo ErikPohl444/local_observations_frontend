@@ -37,10 +37,12 @@ function DataStream() {
   // Render the data in a table format
   return (
     <div>
+      {/* Display a header for the data stream */}
       <h1>
         Filtered iNaturalist Observations Around Arlington, MA with a created
         date within 24 hours{" "}
       </h1>
+      {/* Render 3 fields as table columns */}
       <table>
         {data.map((item, index) => (
           <tr>

@@ -43,19 +43,25 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        {/* Button to toggle the DataStream component visibility */}
         <button onClick={handleButtonClick}>
           {showDataStream
             ? "Reload local observations"
             : "Load local observations"}
         </button>
+        {/* Conditionally render the DataStream component based on the state */}
         {(!timerValue || showDataStream) && <DataStream />}
       </header>
+      {/* Timer component that counts down from 10 seconds */}
+      {/* It triggers the handleTimerEnd function when the timer ends */}
+      {/* The timer value is displayed below the Timer component */}
       <Timer
         key={timerKey}
         initialSeconds={10}
         onTimerEnd={handleTimerEnd}
         onTimerUpdate={handleTimerValue}
       />
+      {/* Display the timer value and its end state */}
       <p>Timer value: {timerValue}</p>
       {timerEnded && <p>Timer has ended.</p>}
     </div>
